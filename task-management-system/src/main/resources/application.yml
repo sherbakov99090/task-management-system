@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/task_management_system
+    username: postgres
+    password: postgres
+
+  flyway:
+    url: jdbc:postgresql://localhost:5432/task_management_system
+    locations: classpath:db/migration
+    user: postgres
+    password: postgres
+  jpa:
+   hibernate:
+    ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+
+   response:
+     registration:
+       message: "Регистрация прошла успешно"

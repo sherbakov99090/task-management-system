@@ -1,0 +1,12 @@
+version: '3'
+services:
+
+  postgres_db_service:
+    container_name: postgres_db_service
+    image: postgres:16.4
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: task_management_system
