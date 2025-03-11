@@ -1,14 +1,11 @@
 package effective.mobile.task_management_system.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
 public class UserRegistrationRequestDto {
 
     private String firstName;

@@ -1,10 +1,7 @@
 package effective.mobile.task_management_system.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,14 +10,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Table(name = "users")
 @Entity
-public class User implements UserDetails {
+public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,11 +32,11 @@ public class User implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private UserRole userRole;
 
-    @OneToMany(mappedBy = "userAuthor")
-    private Set<Task> authoredTasks;
+    @OneToMany(mappedBy = "userEntityAuthor")
+    private Set<TaskEntity> authoredTaskEntities;
 
-    @OneToMany(mappedBy = "userExecutor")
-    private Set<Task> executorTasks;
+    @OneToMany(mappedBy = "userEntityExecutor")
+    private Set<TaskEntity> executorTaskEntities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

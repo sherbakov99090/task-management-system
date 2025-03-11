@@ -17,7 +17,3 @@ spring:
     ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-
-   response:
-     registration:
-       message: "Регистрация прошла успешно"

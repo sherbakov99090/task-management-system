@@ -1,18 +1,18 @@
 package effective.mobile.task_management_system.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import java.util.List;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Table(name = "tasks")
 @Entity
-public class Task {
+public class TaskEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,14 +28,15 @@ public class Task {
     @Enumerated(value = EnumType.STRING)
     private TaskPriority taskPriority;
 
-    private String comments;
+    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntities;
 
     @ManyToOne
     @JoinColumn(name = "user_id_author")
-    private User userAuthor;
+    private UserEntity userEntityAuthor;
 
     @ManyToOne
     @JoinColumn(name = "user_id_executor")
-    private User userExecutor;
+    private UserEntity userEntityExecutor;
 
 }

@@ -1,8 +1,9 @@
 package effective.mobile.task_management_system.rest;
 
 import effective.mobile.task_management_system.dto.request.UserRegistrationRequestDto;
-import effective.mobile.task_management_system.dto.response.UserRegistrationResponseDto;
-import effective.mobile.task_management_system.entity.User;
+import effective.mobile.task_management_system.dto.response.UserResponseDto;
+import effective.mobile.task_management_system.entity.UserEntity;
+import effective.mobile.task_management_system.entity.UserRole;
 import effective.mobile.task_management_system.mapper.UserMapper;
 import effective.mobile.task_management_system.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,22 +21,19 @@ public class UserController {
 
     private final UserMapper userMapper;
 
-
     @PostMapping("/api/users/registration")
-    public ResponseEntity<UserRegistrationResponseDto> userRegistration(@RequestBody UserRegistrationRequestDto userRegistrationRequestDto) {
+    public ResponseEntity<UserResponseDto> userRegistration(@RequestBody UserRegistrationRequestDto userRegistrationRequestDto) {
 
-        User user = userMapper.mapToEntity(userRegistrationRequestDto);
+        UserEntity userEntity = userMapper.mapToEntity(userRegistrationRequestDto, UserRole.USER_ROLE);
 
-        userService.userExistsByEmail(user.getUsername());
+        userEntity = userService.saveUser(userEntity);
 
-        user = userService.saveUser(user);
-
-        UserRegistrationResponseDto responseDto = userMapper.mapToDto(user);
+        UserResponseDto responseDto = userMapper.mapToDto(userEntity);
 
         return new ResponseEntity<>(responseDto,HttpStatus.CREATED);
     }
 
 //    @PutMapping("/api/users/update_role_user")
-//    public ResponseEntity<UserUpdateRoleResponceDto> updateUserRoles()
+//    public ResponseEntity<UserUpdateRoleResponseDto> updateUserRoles()
 
 }

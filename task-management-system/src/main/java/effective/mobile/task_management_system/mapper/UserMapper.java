@@ -1,17 +1,18 @@
 package effective.mobile.task_management_system.mapper;
 
 import effective.mobile.task_management_system.dto.request.UserRegistrationRequestDto;
-import effective.mobile.task_management_system.dto.response.UserRegistrationResponseDto;
-import effective.mobile.task_management_system.entity.User;
+import effective.mobile.task_management_system.dto.response.UserResponseDto;
+import effective.mobile.task_management_system.entity.UserEntity;
+import effective.mobile.task_management_system.entity.UserRole;
 import org.mapstruct.Mapper;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapping;
 
 
 @Mapper(componentModel = "spring")
-@Component
 public interface UserMapper {
 
-    User mapToEntity(UserRegistrationRequestDto requestDto);
-    UserRegistrationResponseDto mapToDto(User user);
+    @Mapping(target = "userRole", source = "userRole")
+    UserEntity mapToEntity(UserRegistrationRequestDto requestDto, UserRole userRole);
+    UserResponseDto mapToDto(UserEntity userEntity);
 
 }
