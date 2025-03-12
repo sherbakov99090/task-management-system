@@ -31,3 +31,6 @@ CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
 
 );
+
+INSERT INTO users (first_name, last_name, email, password, user_role)
+VALUES ('Иван', 'Иванов', 'ivan@example.com', '$2a$10$w0PgYlX5B2FSie8wuaIyTu.tqvrkValjM8UvY1M5Zw3UJlxNpJjTi', 'ADMIN_ROLE');

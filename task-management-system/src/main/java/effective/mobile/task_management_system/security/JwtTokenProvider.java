@@ -3,6 +3,7 @@ package effective.mobile.task_management_system.security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -12,54 +13,55 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
+@AllArgsConstructor
 public class JwtTokenProvider {
 
-    @Value("${spring.jwt.secret}")
-    private String jwtSecret;
+        @Value("${spring.jwt.secret}")
+        private String jwtSecret;
 
-    @Value("${spring.jwt.expirationTimeMs}")
-    private long jwtExpirationDate;
+        @Value("${spring.jwt.expirationTimeMs}")
+        private long jwtExpirationDate;
 
-    public String generateToken(Authentication authentication){
+        // generate JWT token
+        public String generateToken(Authentication authentication){
 
-        String username = authentication.getName();
+            String username = authentication.getName();
 
-        Date currentDate = new Date();
+            Date currentDate = new Date();
 
-        Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
+            Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
 
-        String token = Jwts.builder()
-                .subject(username)
-                .issuedAt(new Date())
-                .expiration(expireDate)
-                .signWith(key())
-                .compact();
+            return Jwts.builder()
+                    .subject(username)
+                    .issuedAt(new Date())
+                    .expiration(expireDate)
+                    .signWith(key())
+                    .compact();
+        }
 
-        return token;
+        private Key key(){
+            return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+        }
+
+        // get username from JWT token
+        public String getUsername(String token){
+
+            return Jwts.parser()
+                    .verifyWith((SecretKey) key())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .getSubject();
+        }
+
+        // validate JWT token
+        public boolean validateToken(String token){
+            Jwts.parser()
+                    .verifyWith((SecretKey) key())
+                    .build()
+                    .parse(token);
+            return true;
+
+        }
     }
 
-    private Key key(){
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
-    }
-
-    // get username from JWT token
-    public String getUsername(String token){
-
-        return Jwts.parser()
-                .verifyWith((SecretKey) key())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
-    }
-
-    // validate JWT token
-    public boolean validateToken(String token){
-        Jwts.parser()
-                .verifyWith((SecretKey) key())
-                .build()
-                .parse(token);
-        return true;
-
-    }
-}

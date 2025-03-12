@@ -1,6 +1,9 @@
 package effective.mobile.task_management_system.service;
 
 import effective.mobile.task_management_system.entity.*;
+import effective.mobile.task_management_system.exception.ExceptionMessage;
+import effective.mobile.task_management_system.exception.TaskEntityNotFoundException;
+import effective.mobile.task_management_system.exception.UserEntityNotExecutorTaskException;
 import effective.mobile.task_management_system.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,12 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class TaskService {
     private final TaskRepository taskRepository;
     private final UserService userService;
+
+    private final ExceptionMessage exceptionMessage;
 
     @Transactional
     public TaskEntity addTask(TaskEntity taskEntity, Long authorId, Long executorId) {
@@ -31,14 +37,11 @@ public class TaskService {
         return taskEntity;
     }
 
-    public TaskEntity taskEntityFindById(Long id) {
 
-        return taskRepository.findById(id).orElseThrow(() -> new RuntimeException("TaskEntity non found by Id:" + id));
-    }
+    @Transactional
+    public TaskEntity updateTaskByAdmin(Long id, String header, String description, TaskStatus taskStatus, TaskPriority taskPriority, Long executorId) {
 
-    public TaskEntity updateTask(Long id, String header, String description, TaskStatus taskStatus, TaskPriority taskPriority, Long executorId) {
-
-        TaskEntity taskEntity = taskEntityFindById(id);
+        TaskEntity taskEntity = findTaskEntityById(id);
 
         if (header != null) {
             taskEntity.setHeader(header);
@@ -64,20 +67,45 @@ public class TaskService {
         return taskRepository.save(taskEntity);
     }
 
+    @Transactional
+    public TaskEntity updateTaskByUser(Long taskId, Long userId, TaskStatus taskStatus) {
+
+        TaskEntity taskEntity = findTaskEntityById(taskId);
+
+        isTaskExecutor(taskEntity, userId);
+
+        taskEntity.setTaskStatus(taskStatus);
+
+        return taskRepository.save(taskEntity);
+
+    }
+
+    public boolean isTaskExecutor(TaskEntity taskEntity, Long userId) {
+
+        if (Objects.equals(taskEntity.getUserEntityExecutor().getId(), userId)) {
+            return true;
+        } else {
+            throw new UserEntityNotExecutorTaskException(exceptionMessage.getUserNotExecutorTask());
+        }
+    }
+
     public void deleteTask(Long id) {
 
         taskRepository.deleteById(id);
 
     }
+
     public List<TaskEntity> findAllTask() {
 
         return taskRepository.findAll();
     }
 
-    public TaskEntity getTaskById(Long id) {
+    public TaskEntity findTaskEntityById(Long id) {
 
-        return taskRepository.findById(id).orElseThrow(() -> new RuntimeException("TaskEntity non found by Id:" + id));
+        return taskRepository.findById(id).
+                orElseThrow(() -> new TaskEntityNotFoundException(exceptionMessage.getTaskEntityNotFound() + id));
     }
+
 
     public void deleteAllTask() {
 

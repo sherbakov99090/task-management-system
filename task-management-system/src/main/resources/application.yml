@@ -13,10 +13,19 @@ spring:
     user: postgres
     password: postgres
   jpa:
-   hibernate:
-    ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   jwt:
     secret: daf66e01593f61a15b857cf433aae03a005812b31234e149036bcc8dee755dbb
     expirationTimeMs: 604800000
+
+  exception:
+    message:
+      taskEntity:
+        notFound: "TaskEntity not found by Id: "
+      userEntity:
+        notFound: "UserEntity not found by Id: "
+        existsEmail: "The user with this email address is registered"
+        notExecutorTask: "The user is not the executor of the task"

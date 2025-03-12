@@ -34,7 +34,4 @@ public class UserController {
         return new ResponseEntity<>(responseDto,HttpStatus.CREATED);
     }
 
-//    @PutMapping("/api/users/update_role_user")
-//    public ResponseEntity<UserUpdateRoleResponseDto> updateUserRoles()
-
 }
