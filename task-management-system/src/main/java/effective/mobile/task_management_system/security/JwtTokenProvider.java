@@ -3,7 +3,6 @@ package effective.mobile.task_management_system.security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,6 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
-@AllArgsConstructor
 public class JwtTokenProvider {
 
         @Value("${spring.jwt.secret}")
