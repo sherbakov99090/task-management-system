@@ -6,6 +6,7 @@ import effective.mobile.task_management_system.dto.response.TaskResponseDto;
 import effective.mobile.task_management_system.entity.TaskEntity;
 import effective.mobile.task_management_system.mapper.TaskMapper;
 import effective.mobile.task_management_system.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class TaskController {
 
 
     @PostMapping("/api/task")
-    public TaskResponseDto addTask(@RequestBody TaskCreateRequestDto taskCreateRequestDto) {
+    public TaskResponseDto addTask(@Valid @RequestBody TaskCreateRequestDto taskCreateRequestDto) {
 
         TaskEntity taskEntity = taskMapper.mapToEntity(taskCreateRequestDto);
 
@@ -30,7 +31,7 @@ public class TaskController {
     }
 
     @PatchMapping("/api/task/update")
-    public TaskResponseDto updateTask(@RequestBody TaskUpdateRequestDto taskUpdateRequestDto) {
+    public TaskResponseDto updateTask(@Valid @RequestBody TaskUpdateRequestDto taskUpdateRequestDto) {
 
 
         TaskEntity taskEntity = taskService.updateTask(
@@ -66,14 +67,14 @@ public class TaskController {
         return taskMapper.mapToEntity(taskEntities);
     }
 
-    @GetMapping("/api/task/getTaskAuthor/{id}")
+    @GetMapping("/api/task/taskAuthor/{id}")
     public List<TaskResponseDto> getAllTaskByAuthor(@PathVariable Long id ){
        return taskMapper.mapToEntity(taskService.getAllTaskByAuthor(id));
 
     }
 
 
-    @GetMapping("/api/task/getTaskExecutor/{id}")
+    @GetMapping("/api/task/taskExecutor/{id}")
     public List<TaskResponseDto> getAllTaskByExecutor(@PathVariable Long id ){
         return taskMapper.mapToEntity(taskService.getAllTaskByExecutor(id));
 

@@ -17,3 +17,6 @@ spring:
     ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+  jwt:
+    secret: daf66e01593f61a15b857cf433aae03a005812b31234e149036bcc8dee755dbb
+    expirationTimeMs: 604800000

@@ -5,6 +5,7 @@ import effective.mobile.task_management_system.dto.response.CommentResponseDto;
 import effective.mobile.task_management_system.entity.CommentEntity;
 import effective.mobile.task_management_system.mapper.CommentMapper;
 import effective.mobile.task_management_system.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class CommentController {
 
 
     @PostMapping("/api/task/comment")
-    public CommentResponseDto addComment(@RequestBody CommentRequestDto commentRequestDto) {
+    public CommentResponseDto addComment(@Valid @RequestBody CommentRequestDto commentRequestDto) {
 
         CommentEntity commentEntity = commentService.addComments(commentRequestDto.getMessage(), commentRequestDto.getTaskId());
 

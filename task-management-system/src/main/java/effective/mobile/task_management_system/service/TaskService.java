@@ -69,7 +69,6 @@ public class TaskService {
         taskRepository.deleteById(id);
 
     }
-
     public List<TaskEntity> findAllTask() {
 
         return taskRepository.findAll();

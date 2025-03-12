@@ -20,8 +20,6 @@ CREATE TABLE IF NOT EXISTS tasks (
 
     FOREIGN KEY (user_id_author) REFERENCES users(id),
     FOREIGN KEY (user_id_executor) REFERENCES users(id)
-
-
 );
 
 CREATE TABLE IF NOT EXISTS comments (

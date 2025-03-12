@@ -2,6 +2,7 @@ package effective.mobile.task_management_system.dto.request;
 
 import effective.mobile.task_management_system.entity.TaskPriority;
 import effective.mobile.task_management_system.entity.TaskStatus;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TaskUpdateRequestDto {
 
+    @NotNull
     private Long id;
 
     private String header;

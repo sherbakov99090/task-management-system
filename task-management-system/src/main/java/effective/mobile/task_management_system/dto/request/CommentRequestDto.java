@@ -1,6 +1,7 @@
 package effective.mobile.task_management_system.dto.request;
 
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -9,7 +10,9 @@ import lombok.*;
 @AllArgsConstructor
 public class CommentRequestDto {
 
+    @NotNull
     private String message;
 
+    @NotNull
     private Long taskId;
 }
