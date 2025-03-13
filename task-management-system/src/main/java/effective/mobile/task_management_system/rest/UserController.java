@@ -21,7 +21,6 @@ public class UserController {
     private final UserService userService;
 
     private final UserMapper userMapper;
-
     @PostMapping("/api/users/registration")
     public ResponseEntity<UserResponseDto> userRegistration(@Valid @RequestBody UserRegistrationRequestDto userRegistrationRequestDto) {
 

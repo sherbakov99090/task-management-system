@@ -1,7 +1,6 @@
 package effective.mobile.task_management_system.service;
 
 import effective.mobile.task_management_system.entity.*;
-import effective.mobile.task_management_system.exception.ExceptionMessage;
 import effective.mobile.task_management_system.exception.TaskEntityNotFoundException;
 import effective.mobile.task_management_system.exception.UserEntityNotExecutorTaskException;
 import effective.mobile.task_management_system.repository.TaskRepository;
@@ -18,8 +17,6 @@ import java.util.Objects;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final UserService userService;
-
-    private final ExceptionMessage exceptionMessage;
 
     @Transactional
     public TaskEntity addTask(TaskEntity taskEntity, Long authorId, Long executorId) {
@@ -85,7 +82,7 @@ public class TaskService {
         if (Objects.equals(taskEntity.getUserEntityExecutor().getId(), userId)) {
             return true;
         } else {
-            throw new UserEntityNotExecutorTaskException(exceptionMessage.getUserNotExecutorTask());
+            throw new UserEntityNotExecutorTaskException();
         }
     }
 
@@ -103,7 +100,7 @@ public class TaskService {
     public TaskEntity findTaskEntityById(Long id) {
 
         return taskRepository.findById(id).
-                orElseThrow(() -> new TaskEntityNotFoundException(exceptionMessage.getTaskEntityNotFound() + id));
+                orElseThrow(TaskEntityNotFoundException::new);
     }
 
 

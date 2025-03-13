@@ -15,10 +15,7 @@ public class ValidEnumValueValidator implements ConstraintValidator<ValidEnumVal
 
     @Override
     public boolean isValid(Enum<?> value, ConstraintValidatorContext context) {
-        if (value == null) {
 
-            return false;
-        }
         for (Enum<?> validValue : validValues) {
             if (validValue.equals(value)) {
                 return true;

@@ -1,7 +1,6 @@
 package effective.mobile.task_management_system.service;
 
 import effective.mobile.task_management_system.entity.UserEntity;
-import effective.mobile.task_management_system.exception.ExceptionMessage;
 import effective.mobile.task_management_system.exception.UserEntityExistsEmailException;
 import effective.mobile.task_management_system.exception.UserEntityNotFoundException;
 import effective.mobile.task_management_system.repository.UserRepository;
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-
-    private final ExceptionMessage exceptionMessage;
 
     public UserEntity saveUser(UserEntity userEntity) {
 
@@ -26,13 +23,12 @@ public class UserService {
 
         if (userRepository.existsByEmail(email)) {
 
-            throw new UserEntityExistsEmailException(exceptionMessage.getUserExistsByEmail());
+            throw new UserEntityExistsEmailException();
         }
     }
 
     public UserEntity findByUserById(Long id) {
 
-        return userRepository.findById(id).orElseThrow(
-                () -> new UserEntityNotFoundException(exceptionMessage.getUserEntityNotFound() + id));
+        return userRepository.findById(id).orElseThrow(UserEntityNotFoundException::new);
     }
 }
